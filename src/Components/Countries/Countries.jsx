@@ -5,6 +5,8 @@ import styles from './Countries.module.css'
 const Countries = ({ countryPromise }) => {
     const countries = use(countryPromise).countries
     const [visitedCountry, setVisitedCountry] = useState([])
+    const [searchCountryText, setSearchCountryText] = useState("");
+    const [searchCountriesName, setSearchCountriesName] = useState([]);
 
     const handleVisitedCountry = (country, visited) => {
         if (!visited) {
@@ -18,6 +20,12 @@ const Countries = ({ countryPromise }) => {
         }
     }
 
+    const handleSearch = (e) => {
+        const value = e.target.value;
+        setSearchCountryText(value);
+        setSearchCountriesName(countries.filter((country) => country.name.common.toLowerCase().includes(value.toLowerCase())));
+    }
+
     return (
         <div>
             <h1 style={{ textAlign: "center" }}>Countries: {countries.length}</h1>
@@ -26,11 +34,21 @@ const Countries = ({ countryPromise }) => {
             <div className={styles.visitedFlags}>
                 {visitedCountry.map((ctry) => <img src={ctry.flag}/>)}
             </div>
+            <br />
+            <br />
+            <input type="text" placeholder='Search country' id='searchCountry' onChange={handleSearch} style={{
+                padding: 10,
+                borderRadius: 20
+            }}/>
+            <br />
+            <br />
             <div className={styles.countries}>
                 {
-                    countries.map(country => {
+                   searchCountryText.trim().length === 0 ? (countries.map(country => {
                         return <Country key={country.ccn3.ccn3} country={country} handleVisitedCountry={handleVisitedCountry}></Country>
-                    })
+                    })): <>{searchCountriesName.map(country => {
+                        return <Country key={country.ccn3.ccn3} country={country} handleVisitedCountry={handleVisitedCountry}></Country>
+                    })}</>
                 }
             </div>
         </div>
