@@ -1,6 +1,7 @@
 import React, { use, useState } from 'react';
 import Country from '../Country/Country';
 import styles from './Countries.module.css'
+import { ScanSearch } from 'lucide-react';
 
 const Countries = ({ countryPromise }) => {
     const countries = use(countryPromise).countries
@@ -28,18 +29,25 @@ const Countries = ({ countryPromise }) => {
 
     return (
         <div>
-            <h1 style={{ textAlign: "center" }}>Countries: {countries.length}</h1>
-            <h2>Visited Countries: {visitedCountry.length === 0 ? "NO COUNTRY VISITED" : visitedCountry.map((ctry, i) => (i == 0? " " : ", ") + ctry.name )}</h2>
-            <h2>Total Visit: {visitedCountry.length}</h2>
-            <div className={styles.visitedFlags}>
+            <h1 style={{ textAlign: "center" }} className='text-5xl mb-3  font-["Oswald"]'>Countries: {countries.length}</h1>
+            <h2 className='text-xl'>Visited Countries: {visitedCountry.length === 0 ? "NO COUNTRY VISITED" : visitedCountry.map((ctry, i) => (i == 0? " " : ", ") + ctry.name )}</h2>
+            <br />
+            <h2 className='text-xl'>Total Visit: {visitedCountry.length}</h2>
+            <br />
+            <div className={`${styles.visitedFlags} flex gap-1 flex-wrap`}>
                 {visitedCountry.map((ctry) => <img src={ctry.flag}/>)}
             </div>
             <br />
             <br />
-            <input type="text" placeholder='Search country' id='searchCountry' onChange={handleSearch} style={{
+            <div className='flex content-center items-center'>
+                <input type="text" placeholder='Search country' id='searchCountry' onChange={handleSearch} style={{
                 padding: 10,
-                borderRadius: 20
-            }}/>
+                borderRadius: 20,
+                border: "1px solid rgba(202, 202, 202, 0.464)",
+                borderBottom: "2px solid  rgba(202, 202, 202, 0.464)",
+                borderRight: "none"
+            }}/><ScanSearch />
+            </div>
             <br />
             <br />
             <div className={styles.countries}>
